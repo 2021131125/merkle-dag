@@ -2,6 +2,18 @@ package merkledag
 
 // Hash to file
 func Hash2File(store KVStore, hash []byte, path string, hp HashPool) []byte {
-	// 根据hash和path， 返回对应的文件, hash对应的类型是tree
-	return nil
+	
+	data, err := store.Get(hash)
+	if err != nil {
+		return nil, err
+	}
+
+	fileContent, err := ParseTreeData(data, path, hp)
+	if err != nil {
+		return nil, err
+	}
+
+	return fileContent, nil
 }
+
+
